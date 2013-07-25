@@ -50,6 +50,7 @@ module.exports = function(grunt) {
 
       if (!options.dest || !grunt.filerev.summary) {
         grunt.log.error('No file saved.');
+        grunt.log.error(options.dest, grunt.filerev.summary)
         return;
       }
       

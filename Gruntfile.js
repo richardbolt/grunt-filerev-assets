@@ -30,22 +30,10 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     filerev_assets: {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      options: {
+        cwd: 'public/', // Prevents the `public/` prefix from being recorded.
+        dest: 'tmp/assets.json'
+      }
     },
 
     // Unit tests.
@@ -62,10 +50,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-filerev');  
+
+  // Load the fixtures into the object that filerev_assets expects.
+  grunt.registerTask('filerev_setup', 'Mock grunt.filerev.summary', function(){
+    grunt.filerev = grunt.file.readJSON('test/fixtures/test.json');
+  });
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'filerev_assets', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'filerev_setup', 'filerev_assets', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
