@@ -20,64 +20,49 @@ grunt.loadNpmTasks('grunt-filerev-assets');
 ## The "filerev_assets" task
 
 ### Overview
-In your project's Gruntfile, add a section named `filerev_assets` to the data object passed into `grunt.initConfig()`.
+This task will take the summary from the [`grunt.filerev`](https://github.com/yeoman/grunt-filerev) task and write it to disk. This is useful if you wish to load it into templates dynamically with, for example, an express middleware in this manner:
 
-```js
-grunt.initConfig({
-  filerev_assets: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
+```node
+var assets = require('assets.json');
+app.locals({
+	assets: assets
 })
 ```
 
+Then, in your templates you can access the `assets` object.
+
+In your project's Gruntfile, optionally add a section named `filerev_assets` to the data object passed into `grunt.initConfig()`. You can safely omit this if you want the default options to be used. Default options will cause grunt.filerev.summary to be written to `assets.json` in the root of your project.
+
 ### Options
 
-#### options.separator
+#### options.dest
 Type: `String`
-Default value: `',  '`
+Default value: `'assets.json'`
 
-A string value that is used to do something with whatever.
+A string value that is used as the filepath to write the contents of [`grunt.filerev.summary`](https://github.com/yeoman/grunt-filerev#summary) to disk.
 
-#### options.punctuation
+#### options.cwd
 Type: `String`
-Default value: `'.'`
+Default value: `''`
 
-A string value that is used to do something else with whatever else.
+A string value that is used as a prefix to strip off the resulting paths in `grunt.filerev.summary`.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  filerev_assets: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
+If you do not set any options the default options are used to do write `grunt.filerev.summary` to `assets.json`.
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example, custom options are used to strip `public/` from the beginning of the paths so they can be used as urls in your templates.
 
 ```js
 grunt.initConfig({
   filerev_assets: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+      dest: 'assets/assets.json',
+      cwd: 'public/',
+    }
   },
 })
 ```
