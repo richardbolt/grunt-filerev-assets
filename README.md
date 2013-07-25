@@ -1,4 +1,4 @@
-# grunt-filerev-assets
+# grunt-filerev-assets [![Build Status](https://travis-ci.org/richardbolt/grunt-filerev-assets.png?branch=master)](https://travis-ci.org/richardbolt/grunt-filerev-assets)
 
 > Record asset paths from grunt-filerev to a json file.
 
