@@ -32,7 +32,8 @@ module.exports = function(grunt) {
     filerev_assets: {
       options: {
         cwd: 'public/', // Prevents the `public/` prefix from being recorded.
-        dest: 'tmp/assets.json'
+        dest: 'tmp/assets.json',
+        prefix: '/static/'
       }
     },
 

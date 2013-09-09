@@ -47,13 +47,19 @@ Default value: `''`
 
 A string value that is used as a prefix to strip off the resulting paths in `grunt.filerev.summary`.
 
+#### options.prefix
+Type: `String`
+Default value: `''`
+
+A string value that is used as a prefix to append to all the resulting paths in `grunt.filerev.summary`.
+
 ### Usage Examples
 
 #### Default Options
 If you do not set any options the default options are used to do write `grunt.filerev.summary` to `assets.json`.
 
 #### Custom Options
-In this example, custom options are used to strip `public/` from the beginning of the paths so they can be used as urls in your templates.
+In this example, custom options are used to strip `public/` from the beginning of the paths and add /static/ so they can be used as urls in your templates.
 
 ```js
 grunt.initConfig({
@@ -61,6 +67,7 @@ grunt.initConfig({
     options: {
       dest: 'assets/assets.json',
       cwd: 'public/',
+      prefix: '/static/',
     }
   },
 })

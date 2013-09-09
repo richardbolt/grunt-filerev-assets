@@ -25,7 +25,22 @@ function stripPrefixFromObj(obj, options) {
     assets[key] = value;
     }
   }
-    return assets;
+  return assets;
+}
+
+function addPrefixToObj(obj, options) {
+  var assets = {};
+  for (var _key in obj) {
+    if (obj.hasOwnProperty(_key)) {
+      var key = _key,
+          value = obj[key];
+      if (options.prefix) {
+        value = options.prefix + value;
+      }
+    assets[key] = value;
+    }
+  }
+  return assets;
 }
 
 
@@ -35,7 +50,8 @@ module.exports = function(grunt) {
       var self = this,
         options = self.options({
           dest: 'assets.json',  // Writes to this file.
-          cwd: ''  // Removes cwd from the paths recorded.
+          cwd: '',  // Removes cwd from the paths recorded.
+          prefix: ''  // Prepends this value to all asset paths.
         });
 
       // We must have run filerev in some manner first.
@@ -54,11 +70,12 @@ module.exports = function(grunt) {
         return;
       }
       
-      var assets;
+      var assets = grunt.filerev.summary;
       if (options.cwd) {
-        assets = stripPrefixFromObj(grunt.filerev.summary, options);
-      } else {
-        assets = grunt.filerev.summary;
+        assets = stripPrefixFromObj(assets, options);
+      }
+      if (options.prefix) {
+        assets = addPrefixToObj(assets, options);
       }
 
       grunt.file.write(options.dest,
