@@ -30,10 +30,20 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     filerev_assets: {
-      options: {
-        cwd: 'public/', // Prevents the `public/` prefix from being recorded.
-        dest: 'tmp/assets.json',
-        prefix: '/static/'
+      default_options: {
+        options: {
+          cwd: 'public/', // Prevents the `public/` prefix from being recorded.
+          dest: 'tmp/assets.json',
+          prefix: '/static/'
+        }
+      },
+      prettyPrint: {
+        options: {
+          cwd: 'public/', // Prevents the `public/` prefix from being recorded.
+          dest: 'tmp/assets-pretty.json',
+          prefix: '/static/',
+          prettyPrint: true
+        }
       }
     },
 
@@ -51,7 +61,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-filerev');  
+  grunt.loadNpmTasks('grunt-filerev');
 
   // Load the fixtures into the object that filerev_assets expects.
   grunt.registerTask('filerev_setup', 'Mock grunt.filerev.summary', function(){
