@@ -34,8 +34,18 @@ exports.filerev_assets = {
     test.equal(true, created, 'should save filerev.summary to disk.');
 
     var actual = grunt.file.readJSON('tmp/assets.json');
-    var expected = grunt.file.readJSON('test/expected/expected.json');    
+    var expected = grunt.file.readJSON('test/expected/expected.json');
     test.deepEqual(actual, expected, 'should strip the given prefix.');
+
+    test.done();
+  },
+  prettyPrint: function (test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/assets-pretty.json');
+    var expected = grunt.file.read('test/expected/expected.json');
+
+    test.deepEqual(actual, expected, 'Should save in pretty-print format');
 
     test.done();
   }

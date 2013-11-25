@@ -53,6 +53,12 @@ Default value: `''`
 
 A string value that is used as a prefix to append to all the resulting paths in `grunt.filerev.summary`.
 
+#### options.prettyPrint
+Type: `Boolean`
+Default value: `false`
+
+Format the resulting json file into a human-readable format.
+
 ### Usage Examples
 
 #### Default Options

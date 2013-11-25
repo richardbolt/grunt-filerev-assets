@@ -46,12 +46,13 @@ function addPrefixToObj(obj, options) {
 
 module.exports = function(grunt) {
 
-  grunt.registerTask('filerev_assets', 'Record asset paths from grunt-filerev to a json file', function() {
-      var self = this,
+  grunt.registerMultiTask('filerev_assets', 'Record asset paths from grunt-filerev to a json file', function() {
+      var self = this, spaces = 0,
         options = self.options({
           dest: 'assets.json',  // Writes to this file.
           cwd: '',  // Removes cwd from the paths recorded.
-          prefix: ''  // Prepends this value to all asset paths.
+          prefix: '',  // Prepends this value to all asset paths.
+          prettyPrint: false
         });
 
       // We must have run filerev in some manner first.
@@ -69,7 +70,7 @@ module.exports = function(grunt) {
         grunt.log.error(options.dest, grunt.filerev.summary);
         return;
       }
-      
+
       var assets = grunt.filerev.summary;
       if (options.cwd) {
         assets = stripPrefixFromObj(assets, options);
@@ -77,9 +78,12 @@ module.exports = function(grunt) {
       if (options.prefix) {
         assets = addPrefixToObj(assets, options);
       }
+      if (options.prettyPrint) {
+        spaces = 4;
+      }
 
       grunt.file.write(options.dest,
-                       JSON.stringify(assets));
+                       JSON.stringify(assets, null, spaces));
 
       grunt.filerevassets = assets;
 
