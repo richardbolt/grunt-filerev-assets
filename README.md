@@ -70,10 +70,12 @@ In this example, custom options are used to strip `public/` from the beginning o
 ```js
 grunt.initConfig({
   filerev_assets: {
-    options: {
-      dest: 'assets/assets.json',
-      cwd: 'public/',
-      prefix: '/static/',
+    dist: {
+      options: {
+        dest: 'assets/assets.json',
+        cwd: 'public/',
+        prefix: '/static/'
+      }
     }
   },
 })
