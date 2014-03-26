@@ -43,6 +43,22 @@ function addPrefixToObj(obj, options) {
   return assets;
 }
 
+function filterExt(obj, options) {
+    var assets = {},
+        includeExts = options.includeExts;
+    for (var _key in obj) {
+        if (obj.hasOwnProperty(_key)) {
+            var key = _key,
+                value = obj[key],
+                ext = '.'+key.split('.').pop();
+            if ( includeExts.indexOf(ext) !== -1 ) {
+                assets[key] = value;
+            }
+        }
+    }
+    return assets;
+}
+
 
 module.exports = function(grunt) {
 
@@ -51,6 +67,7 @@ module.exports = function(grunt) {
         options = self.options({
           dest: 'assets.json',  // Writes to this file.
           cwd: '',  // Removes cwd from the paths recorded.
+          includeExts: [], // Include file extensions, eg ['.js', '.css'], default for extensions all extensions
           prefix: '',  // Prepends this value to all asset paths.
           prettyPrint: false
         });
@@ -72,6 +89,9 @@ module.exports = function(grunt) {
       }
 
       var assets = grunt.filerev.summary;
+      if( options.includeExts.length > 0 ) {
+        assets = filterExt(assets, options);
+      }
       if (options.cwd) {
         assets = stripPrefixFromObj(assets, options);
       }

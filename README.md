@@ -59,6 +59,14 @@ Default value: `false`
 
 Format the resulting json file into a human-readable format.
 
+#### options.includeExts
+Type: `Array`
+Default value: `[]`
+
+An array that is used for filter the file types by the file extension.
+
+
+
 ### Usage Examples
 
 #### Default Options
@@ -74,7 +82,8 @@ grunt.initConfig({
       options: {
         dest: 'assets/assets.json',
         cwd: 'public/',
-        prefix: '/static/'
+        prefix: '/static/',
+        includeExts: ['.js', '.css']
       }
     }
   },
