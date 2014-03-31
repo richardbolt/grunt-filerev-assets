@@ -7,6 +7,7 @@
  */
 
 'use strict';
+var createYmlFile = require('../lib/assets-to-yml');
 
 function stripPrefixFromObj(obj, options) {
   var assets = {};
@@ -47,6 +48,7 @@ function addPrefixToObj(obj, options) {
 module.exports = function(grunt) {
 
   grunt.registerMultiTask('filerev_assets', 'Record asset paths from grunt-filerev to a json file', function() {
+      var done = this.async();
       var self = this, spaces = 0,
         options = self.options({
           dest: 'assets.json',  // Writes to this file.
@@ -71,6 +73,7 @@ module.exports = function(grunt) {
         return;
       }
 
+
       var assets = grunt.filerev.summary;
       if (options.cwd) {
         assets = stripPrefixFromObj(assets, options);
@@ -82,12 +85,16 @@ module.exports = function(grunt) {
         spaces = 4;
       }
 
-      grunt.file.write(options.dest,
-                       JSON.stringify(assets, null, spaces));
+      if (options.dest.match(/\.yml$/)) {
+        grunt.file.write(options.dest, createYmlFile(assets));
+      } else {
+        grunt.file.write(options.dest,
+                         JSON.stringify(assets, null, spaces));
+        grunt.log.writeln('File', options.dest, 'created.');
+      }
 
       grunt.filerevassets = assets;
 
-      grunt.log.writeln('File', options.dest, 'created.');
   });
 
 };

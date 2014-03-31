@@ -44,6 +44,13 @@ module.exports = function(grunt) {
           prefix: '/static/',
           prettyPrint: true
         }
+      },
+      exportToYml: {
+        options: {
+          cwd: 'public/', // Prevents the `public/` prefix from being recorded.
+          dest: 'tmp/assets.yml',
+          prefix: '',
+        }
       }
     },
 

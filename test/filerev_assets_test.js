@@ -1,6 +1,8 @@
 'use strict';
 
 var grunt = require('grunt');
+var yaml = require('js-yaml');
+
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -21,6 +23,7 @@ var grunt = require('grunt');
     test.doesNotThrow(block, [error], [message])
     test.ifError(value)
 */
+
 
 exports.filerev_assets = {
   setUp: function(done) {
@@ -47,6 +50,16 @@ exports.filerev_assets = {
 
     test.deepEqual(actual, expected, 'Should save in pretty-print format');
 
+    test.done();
+  },
+  exportToYml: function(test) {
+    test.expect(1);
+    var actual = grunt.file.read('tmp/assets.yml'),
+        expected = grunt.file.read('test/expected/expected_yaml.yml');
+    var actualObj = yaml.load(actual),
+        expectedObj = yaml.load(expected);
+
+    test.deepEqual(actualObj, expectedObj, 'export to yml successful');
     test.done();
   }
 };
