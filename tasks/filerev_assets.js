@@ -43,6 +43,13 @@ function addPrefixToObj(obj, options) {
   return assets;
 }
 
+function normalizePath(path) {
+    // Swaps \ in path with /, to ensure consistent results for win/*nix
+    while (path.indexOf('\\') > 0) {
+        path = path.replace('\\', '/');
+    }
+    return path;
+}
 
 module.exports = function(grunt) {
 
@@ -71,7 +78,10 @@ module.exports = function(grunt) {
         return;
       }
 
-      var assets = grunt.filerev.summary;
+      var assets = {};
+      Object.keys(grunt.filerev.summary).forEach(function (key) {
+        assets[normalizePath(key)] = normalizePath(grunt.filerev.summary[key]);
+      });
       if (options.cwd) {
         assets = stripPrefixFromObj(assets, options);
       }
