@@ -8,8 +8,18 @@
 
 'use strict';
 
+function normalizePath(path) {
+    // Swaps \ in path with /, to ensure consistent results for win/*nix
+    while (path.indexOf('\\') > 0) {
+        path = path.replace('\\', '/');
+    }
+    return path;
+}
+
 function stripPrefixFromObj(obj, options) {
   var assets = {};
+  options.cwd = normalizePath(options.cwd);
+  
   for (var _key in obj) {
     if (obj.hasOwnProperty(_key)) {
       var key = _key,
@@ -30,6 +40,8 @@ function stripPrefixFromObj(obj, options) {
 
 function addPrefixToObj(obj, options) {
   var assets = {};
+  options.prefix = normalizePath(options.prefix);
+  
   for (var _key in obj) {
     if (obj.hasOwnProperty(_key)) {
       var key = _key,
@@ -41,14 +53,6 @@ function addPrefixToObj(obj, options) {
     }
   }
   return assets;
-}
-
-function normalizePath(path) {
-    // Swaps \ in path with /, to ensure consistent results for win/*nix
-    while (path.indexOf('\\') > 0) {
-        path = path.replace('\\', '/');
-    }
-    return path;
 }
 
 module.exports = function(grunt) {
