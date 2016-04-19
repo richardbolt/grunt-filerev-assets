@@ -31,10 +31,7 @@
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-nodeunit": "^0.4.1",
-    "grunt": "~0.4.1"
-  },
-  "peerDependencies": {
-    "grunt": ">=0.4.1"
+    "grunt": "^0.4.5"
   },
   "keywords": [
     "gruntplugin"
